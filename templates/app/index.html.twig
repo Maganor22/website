@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Hello AppController!
+{% endblock %}
+
+{% block body %}
+  <div class="top-banner">
+    <!-- Le bandeau sera vide, juste pour l'effet visuel -->
+  </div>
+
+  <div class="home-container">
+    <div class="hero-section">
+      <h1>To Be Helper</h1>
+      <p class="hero-text">Découvrez notre équipe de formateurs professionnels</p>
+
+      <a href="#" class="btn btn-primary">Test</a>
+    </div>
+    {% if formateurs is not empty %}
+      <section class="formateurs-section">
+        <h2 class="section-title">Notre équipe</h2>
+        <p class="section-description">Découvrez les experts qui vous accompagneront dans votre formation</p>
+
+        <div class="formateurs-grid">
+          {% for formateur in formateurs %}
+            <div class="card" id="card-<?= $formateur['id'] ?>">
+              <div class="card-image">
+                {% if formateur.image is defined and formateur.image is not empty %}
+                  <img src="/uploads/{{ formateur.image }}" alt="Photo de <?= htmlspecialchars($formateur['nom']) ?>" class="formateur-img" />
+                {% else %}
+                  <img src="/images/default-profile.jpg" alt="Photo par défaut" class="formateur-img" />
+                {% endif %}
+              </div>
+              <div class="card-content">
+                <div class="card-header">
+                  <h3 class="formateur-name">{{ formateur.nom }}</h3>
+                  <p class="email">{{ formateur.email }}</p>
+                </div>
+
+                <div class="card-section">
+                  <h3 class="card-title">Description</h3>
+                  <p class="description">{{ formateur.description }}</p>
+                </div>
+
+                <div class="card-section">
+                  <h3 class="card-title">Compétences</h3>
+                  <p class="competences-text">{{ formateur.competences }}</p>
+                </div>
+
+                <div class="card-section">
+                  <h3 class="card-title">Expériences</h3>
+                  <p class="experiences-text">{{ formateur.experiences }}</p>
+                </div>
+              </div>
+              <button class="voir-plus-btn" onclick="toggleCard(<?= $formateur['id'] ?>)"><span class="btn-text">Voir plus</span></button>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% else %}
+      <p class="no-formateurs">Aucun formateur disponible pour le moment.</p>
+    {% endif %}
+  </div>
+{% endblock %}
